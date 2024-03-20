@@ -22,8 +22,8 @@ namespace Route.C41.G02.DAL.Data
         {
         }
 
-       // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-       //      => optionsBuilder.UseSqlServer("Server = .; Database = MvcApplicationG02; Trusted_Connection  = True; MultipleActiveResultSets = False");
+       /// protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+       ///      => optionsBuilder.UseSqlServer("Server = .; Database = MvcApplicationG02; Trusted_Connection  = True; MultipleActiveResultSets = False");
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

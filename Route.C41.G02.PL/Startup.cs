@@ -45,10 +45,16 @@ namespace Route.C41.G02.PL
             ///     
             ///     );
 
+            /// services.AddDbContext<ApplicationDbContext>(options =>
+            /// {
+            ///     options.UseSqlServer("Server = .; Database = MvcApplicationG02; Trusted_Connection  = True; MultipleActiveResultSets = False");
+            /// });
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer("Server = .; Database = MvcApplicationG02; Trusted_Connection  = True; MultipleActiveResultSets = False");
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
 
         }
 
