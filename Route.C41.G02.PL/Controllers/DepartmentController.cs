@@ -5,7 +5,7 @@ namespace Route.C41.G02.PL.Controllers
 {
     // Inhertiance  : DepartmentController is  a Controller
     // Composition  : DepartmentController has a DepartmentRepository
-    
+
     public class DepartmentController : Controller
     {
         private readonly IDepartmentRepository _departmentRepo; // NULL
@@ -18,7 +18,9 @@ namespace Route.C41.G02.PL.Controllers
         // /Department/Index
         public IActionResult Index()
         {
-            return View();
+            var deparment = _departmentRepo.GetAll();
+
+            return View(deparment);
         }
     }
 }
