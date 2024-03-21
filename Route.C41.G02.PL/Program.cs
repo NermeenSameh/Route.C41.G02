@@ -13,7 +13,11 @@ namespace Route.C41.G02.PL
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+          var hostBuiler =  CreateHostBuilder(args).Build();
+           // Data Seeding      
+           // Apply Migrations 
+
+            hostBuiler.Run(); // Application is Ready For Requests
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
