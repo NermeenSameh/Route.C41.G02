@@ -12,8 +12,10 @@ namespace Route.C41.G02.DAL.Models
     {
         public int Id { get; set; }
         //[Required (ErrorMessage = "Code is Required ya Nemoo!!")]
+        [Required(ErrorMessage ="Code is Required")]
         public string Code { get; set; }
-       // [Required]
+        // [Required]
+        [Required(ErrorMessage = "Code is Required")]
         public string Name { get; set; }
         [Display(Name = "Date of Creation")]
         public DateTime DataOfCreation { get; set; }
