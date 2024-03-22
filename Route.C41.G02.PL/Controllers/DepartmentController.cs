@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Route.C41.G01.BLL.Interfaces;
@@ -14,7 +15,7 @@ namespace Route.C41.G02.PL.Controllers
     {
         private readonly IDepartmentRepository _departmentRepo; // NULL
         private readonly IWebHostEnvironment _env;
-        public DepartmentController(IDepartmentRepository departmentRepo , IWebHostEnvironment env) // Ask SLR fro creating an object from class implmenting IDepartmentRepository
+        public DepartmentController(IDepartmentRepository departmentRepo, IWebHostEnvironment env) // Ask SLR fro creating an object from class implmenting IDepartmentRepository
         {
             _departmentRepo = departmentRepo;
             _env = env;
@@ -37,8 +38,8 @@ namespace Route.C41.G02.PL.Controllers
         [HttpPost]
         public IActionResult Create(Department department)
         {
-             
-            if(ModelState.IsValid)  // Server Side Validation
+
+            if (ModelState.IsValid)  // Server Side Validation
             {
                 var count = _departmentRepo.Add(department);
                 if (count > 0)
@@ -50,18 +51,18 @@ namespace Route.C41.G02.PL.Controllers
         // /Department/Details/10
         // /Department/Details
         [HttpGet]
-        public IActionResult Details (int? id , string viewName = "Details")
+        public IActionResult Details(int? id, string viewName = "Details")
         {
             if (!id.HasValue)
                 return BadRequest(); // 400
 
             var department = _departmentRepo.Get(id.Value);
 
-            if(department is null)
+            if (department is null)
                 return NotFound(); // 404
 
 
-            return View(viewName ,department);
+            return View(viewName, department);
         }
 
 
@@ -71,22 +72,23 @@ namespace Route.C41.G02.PL.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-           /// if(!id.HasValue)
-           ///     return BadRequest(); // 400
-           /// var department = _departmentRepo.Get(id.Value);
-           ///
-           /// if(department is null)
-           ///     return NotFound(); // 404 
-           ///
-           /// return View(department);
-            
+            /// if(!id.HasValue)
+            ///     return BadRequest(); // 400
+            /// var department = _departmentRepo.Get(id.Value);
+            ///
+            /// if(department is null)
+            ///     return NotFound(); // 404 
+            ///
+            /// return View(department);
+
             return Details(id, "Edit");
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute]int id , Department department)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute] int id, Department department)
         {
-            if(id !=department.Id)
+            if (id != department.Id)
                 return BadRequest(/*"Here is Error Okey :("*/);
 
             if (!ModelState.IsValid)
@@ -106,10 +108,13 @@ namespace Route.C41.G02.PL.Controllers
                 else
                     ModelState.AddModelError(string.Empty, "An Error Has Occurred during Updating the Department");
 
-                return View(department);            
+                return View(department);
             }
 
 
         }
+    
+    
+    
     }
 }
