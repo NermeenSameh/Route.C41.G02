@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace Route.C41.G02.DAL.Models
 {
     // Model
-    public class Department
+    public class Department : ModelBase
     {
-        public int Id { get; set; }
-        //[Required (ErrorMessage = "Code is Required ya Nemoo!!")]
+        
+        //[Requiresd (ErrorMessage = "Code is Required ya Nemoo!!")]
         [Required(ErrorMessage ="Code is Required")]
         public string Code { get; set; }
         // [Required]

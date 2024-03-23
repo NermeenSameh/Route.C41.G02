@@ -22,10 +22,10 @@ namespace Route.C41.G02.DAL.Models
         [EnumMember(Value = "PartTime")]
         PartTime = 2 ,
     }
-    public class Employee
+    public class Employee : ModelBase
     {
-        public int Id { get; set; }
-
+     
+        
         [Required]
         [MaxLength(50 , ErrorMessage = "Max Lenght of Name is 50 Chars")]
         [MinLength(5 , ErrorMessage = " Min Lenght of Name is 5 Chars")]
