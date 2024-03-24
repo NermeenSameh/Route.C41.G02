@@ -55,12 +55,12 @@ namespace Route.C41.G01.BLL.Repositories
         ///
         ///  }
 
-        public IQueryable<Employee> GetEmployeeByAddress(string address)
-        {
-            //return _dbContext.Employees.Where(E => E.Address.ToLower()== address.ToLower());
-            return _dbContext.Employees.Where(E => E.Address.Equals(address));
-
-
-        }
+        /// public IQueryable<Employee> GetEmployeeByAddress(string address)
+        /// {
+        ///     //return _dbContext.Employees.Where(E => E.Address.ToLower()== address.ToLower());
+        ///     return _dbContext.Employees.Where(E => E.Address.Equals(address));
+        /// 
+        /// 
+        /// }
     }
 }

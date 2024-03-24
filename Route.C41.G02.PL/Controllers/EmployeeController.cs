@@ -24,6 +24,7 @@ namespace Route.C41.G02.PL.Controllers
             return View(employee);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -44,7 +45,7 @@ namespace Route.C41.G02.PL.Controllers
             return View(employee);
         }
 
-        public IActionResult Details(int? id , string empType ="Details")
+        public IActionResult Details(int? id , string viewName ="Details")
         {
             if (!id.HasValue)
                 return BadRequest();
@@ -54,7 +55,7 @@ namespace Route.C41.G02.PL.Controllers
             if(emp is null)
                 return NotFound();
 
-            return View(empType, emp);
+            return View(viewName, emp);
 
 
         }
@@ -99,6 +100,7 @@ namespace Route.C41.G02.PL.Controllers
             return Details(id, "Delete");
         }
 
+        [HttpPost]
         public IActionResult Delete(Employee employee)
         {
            
