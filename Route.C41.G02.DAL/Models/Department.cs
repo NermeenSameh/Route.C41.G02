@@ -20,6 +20,8 @@ namespace Route.C41.G02.DAL.Models
         [Display(Name = "Date of Creation")]
         public DateTime DataOfCreation { get; set; }
 
+        // Navigational Property [Many]
+        public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
     }
 }

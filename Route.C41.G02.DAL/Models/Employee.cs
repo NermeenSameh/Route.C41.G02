@@ -43,7 +43,7 @@ namespace Route.C41.G02.DAL.Models
         public bool IsActive { get; set; }
 
         [EmailAddress]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [Display(Name = "Phone Number")]
         [Phone]
@@ -57,6 +57,15 @@ namespace Route.C41.G02.DAL.Models
 
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
-        public bool IsDeleted { get; set; } = false;   
+        public bool IsDeleted { get; set; } = false;
+
+        
+        public int? DepartmentId { get; set; }  // Foreign Key Column
+
+        // Navigational Property [Many]
+
+        public Department Departments { get; set; }
+
+
     }
 }
