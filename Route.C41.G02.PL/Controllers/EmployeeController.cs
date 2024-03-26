@@ -11,11 +11,12 @@ namespace Route.C41.G02.PL.Controllers
     {
         private readonly IEmployeeRepository _employeeRepo; // NULL
         private readonly IWebHostEnvironment _env;
-
-        public EmployeeController(IEmployeeRepository employeeRepo, IWebHostEnvironment env)
+        //  private readonly IDepartmentRepository _departmentRepo;
+        public EmployeeController(IEmployeeRepository employeeRepo, IWebHostEnvironment env /*,IDepartmentRepository departmentRepo*/)
         {
             _employeeRepo = employeeRepo;
             _env = env;
+            //  _departmentRepo = departmentRepo;
         }
 
         public IActionResult Index()
@@ -26,13 +27,13 @@ namespace Route.C41.G02.PL.Controllers
             // 1. ViewData
             // =>  is a Dictionary Type Property (introduced in Asp.Net Framework 3.5)
             // =>  It helps us to tranfer the data from controller [Action] to view
-          
-            ViewData["Massage"] = "Hello From ViewData" ;
-           
+
+            ViewData["Massage"] = "Hello From ViewData";
+
             // 2. ViewBag
             // =>  is a Dynamic Type Property (introduced in Asp.Net Framework 4.0 based on dynmaic Feature)
             // =>  It helps us to transfer the data fromcontroller [Action] to view
-           
+
             ViewBag.Massage = "Hello from ViewBag";
             var employee = _employeeRepo.GetAll();
             return View(employee);
@@ -41,6 +42,9 @@ namespace Route.C41.G02.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+
+            // ViewData["Departments"] = _departmentRepo.GetAll();
+            //ViewBag.Departments = _departmentRepo.GetAll();
             return View();
 
         }
@@ -52,29 +56,29 @@ namespace Route.C41.G02.PL.Controllers
             if (ModelState.IsValid)
             {
                 var count = _employeeRepo.Add(employee);
-             
+
                 // 3. TempData 
 
                 if (count > 0)
-                 TempData["Message"] = "Employee is Create Succssfully";
-               
+                    TempData["Message"] = "Employee is Create Succssfully";
+
                 else
-                TempData["Message"] = "An Error Has Occured , Employee Not Created :(";
-                
-                    return RedirectToAction(nameof(Index));
+                    TempData["Message"] = "An Error Has Occured , Employee Not Created :(";
+
+                return RedirectToAction(nameof(Index));
 
             }
             return View(employee);
         }
 
-        public IActionResult Details(int? id , string viewName ="Details")
+        public IActionResult Details(int? id, string viewName = "Details")
         {
             if (!id.HasValue)
                 return BadRequest();
 
             var emp = _employeeRepo.Get(id.Value);
 
-            if(emp is null)
+            if (emp is null)
                 return NotFound();
 
             return View(viewName, emp);
@@ -85,13 +89,15 @@ namespace Route.C41.G02.PL.Controllers
 
         public IActionResult Edit(int? id)
         {
+            //  ViewData["Departments"] = _departmentRepo.GetAll();
+
             return Details(id, "Edit");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult Edit ([FromRoute] int id, Employee employee)
+        public IActionResult Edit([FromRoute] int id, Employee employee)
         {
             if (id != employee.Id)
                 return BadRequest();
@@ -125,7 +131,7 @@ namespace Route.C41.G02.PL.Controllers
         [HttpPost]
         public IActionResult Delete(Employee employee)
         {
-           
+
 
             try
             {
