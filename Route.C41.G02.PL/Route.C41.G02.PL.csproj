@@ -22,4 +22,8 @@
     <Folder Include="Views\Employee\NewFolder\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\Employee.css" />
+  </ItemGroup>
+
 </Project>

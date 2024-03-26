@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<link href="~/css/employee.css" rel="stylesheet" />
 @* <div class="alert alert-warning">
     @ViewData["Massage"];
 </div>
@@ -10,12 +10,24 @@
 <div class="alert alert-success">
     @ViewBag.Massage;
 </div> *@
-@{
+@* @{
     ViewData["Title"] = "Index";
     string viewDataMassage = ViewData["Massage"] as string; // Enforce Type Safety -> Requirs Type Conversion => [Strongly Typed ]
 
     string viewBagMassage = ViewBag.Massage; // Can't Enforce Type Safety ->  Not Require Type Conversion [weekly Typed]
+} *@
+
+
+
+@if (!string.IsNullOrEmpty(TempData["Message"] as string))
+{
+    <div class="alert alert-primary fade-in-out">
+        @TempData["Message"]
+
+    </div>
+
 }
+
 
 <h1>All Employee</h1>
 <br />

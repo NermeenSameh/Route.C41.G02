@@ -1,5 +1,4 @@
-﻿
-@model Employee
+﻿@model Employee
 
 <div class="form-group">
     <label asp-for="Name" class="col-form-label"></label>
@@ -32,9 +31,17 @@
 </div>
 
 <div class="form-group">
-    <input asp-for="IsActive" class="form-check-input" />
-    <label asp-for="IsActive" class="col-form-label"></label>
+    <label asp-for="IsActive" class="col-form-label">Is Active</label>
+    <div class="form-check">
+        <input asp-for="IsActive" class="form-check-input" type="radio" id="activeYes" value="true" checked>
+        <label class="form-check-label" for="activeYes">Yes</label>
+    </div>
+    <div class="form-check">
+        <input asp-for="IsActive" class="form-check-input" type="radio" id="activeNo" value="false">
+        <label class="form-check-label" for="activeNo">No</label>
+    </div>
 </div>
+
 
 <div class="form-group">
     <label asp-for="Gender" class="col-form-label"></label>
