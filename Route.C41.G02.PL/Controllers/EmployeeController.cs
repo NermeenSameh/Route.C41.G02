@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Route.C41.G01.BLL.Interfaces;
 using Route.C41.G02.DAL.Models;
 using System;
+using System.Linq;
 
 namespace Route.C41.G02.PL.Controllers
 {
@@ -19,24 +20,30 @@ namespace Route.C41.G02.PL.Controllers
             //  _departmentRepo = departmentRepo;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchInp)
         {
+            var employee = Enumerable.Empty<Employee>();
             TempData.Keep();
             // Binding Through View's Dictionary : Tranfer Data from Action to View  [One Way]
 
-            // 1. ViewData
-            // =>  is a Dictionary Type Property (introduced in Asp.Net Framework 3.5)
-            // =>  It helps us to tranfer the data from controller [Action] to view
+            /// 1. ViewData
+            /// =>  is a Dictionary Type Property (introduced in Asp.Net Framework 3.5)
+            /// =>  It helps us to tranfer the data from controller [Action] to view
+            /// //ViewData["Massage"] = "Hello From ViewData";
 
-            ViewData["Massage"] = "Hello From ViewData";
+            /// 2. ViewBag
+            /// =>  is a Dynamic Type Property (introduced in Asp.Net Framework 4.0 based on dynmaic Feature)
+            /// =>  It helps us to transfer the data fromcontroller [Action] to view
+            /// //ViewBag.Massage = "Hello from ViewBag";
 
-            // 2. ViewBag
-            // =>  is a Dynamic Type Property (introduced in Asp.Net Framework 4.0 based on dynmaic Feature)
-            // =>  It helps us to transfer the data fromcontroller [Action] to view
+            if (string.IsNullOrEmpty(searchInp))
+                employee = _employeeRepo.GetAll();
+            else
+                employee = _employeeRepo.SearchByName(searchInp.ToLower());
 
-            ViewBag.Massage = "Hello from ViewBag";
-            var employee = _employeeRepo.GetAll();
             return View(employee);
+
+
         }
 
         [HttpGet]
