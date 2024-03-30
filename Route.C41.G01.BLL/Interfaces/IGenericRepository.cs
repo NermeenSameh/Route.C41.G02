@@ -12,11 +12,11 @@ namespace Route.C41.G01.BLL.Interfaces
         IEnumerable<T> GetAll();
         T Get(int id);
 
-        int Add(T entity);
+        void Add(T entity);
 
-        int Update(T entity);
+        void Update(T entity);
 
-        int Delete(T entity);
+        void Delete(T entity);
 
     }
 }

@@ -61,7 +61,7 @@ namespace Route.C41.G02.PL
 
             // ApplicationServicesExtientions.AddApplicationServices(services); // Static Method
 
-            services.AddApplicationServices();  // Extension Method
+             services.AddApplicationServices();  // Extension Method
 
             services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
 

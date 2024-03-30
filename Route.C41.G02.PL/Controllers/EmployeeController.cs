@@ -15,14 +15,25 @@ namespace Route.C41.G02.PL.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeRepository _employeeRepo; // NULL
+        private readonly IUniteOfWork _uniteOfWork;
+
+        // private readonly IEmployeeRepository _employeeRepo; // NULL
         private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
 
+
+
+
         //  private readonly IDepartmentRepository _departmentRepo;
-        public EmployeeController(IEmployeeRepository employeeRepo, IWebHostEnvironment env, IMapper mapper /*,IDepartmentRepository departmentRepo*/)
+        public EmployeeController(
+            IUniteOfWork uniteOfWork,
+            //IEmployeeRepository employeeRepo,
+            IWebHostEnvironment env,
+            IMapper mapper
+            )
         {
-            _employeeRepo = employeeRepo;
+            // _employeeRepo = employeeRepo;
+            _uniteOfWork = uniteOfWork;
             _env = env;
             _mapper = mapper;
             //  _departmentRepo = departmentRepo;
@@ -45,12 +56,12 @@ namespace Route.C41.G02.PL.Controllers
             /// //ViewBag.Massage = "Hello from ViewBag";
 
             if (string.IsNullOrEmpty(searchInp))
-                employee = _employeeRepo.GetAll();
+                employee = _uniteOfWork.EmployeeRepository.GetAll();
             else
-                employee = _employeeRepo.SearchByName(searchInp.ToLower());
+                employee = _uniteOfWork.EmployeeRepository.SearchByName(searchInp.ToLower());
 
             var mappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employee);
-          
+
             return View(mappedEmp);
 
 
@@ -94,10 +105,15 @@ namespace Route.C41.G02.PL.Controllers
 
             if (ModelState.IsValid)
             {
-                var count = _employeeRepo.Add(MappedEmp);
+                _uniteOfWork.EmployeeRepository.Add(MappedEmp);
 
                 // 3. TempData 
+                // Update
+                // _uniteOfWork.EmployeeRepository.Update(employee);
 
+                // Delete
+                // _uniteOfWork.EmployeeRepository.Remove(employee);
+                var count = _uniteOfWork.Complete();
                 if (count > 0)
                     TempData["Message"] = "Employee is Create Succssfully";
 
@@ -115,7 +131,7 @@ namespace Route.C41.G02.PL.Controllers
             if (!id.HasValue)
                 return BadRequest();
 
-            var emp = _employeeRepo.Get(id.Value);
+            var emp = _uniteOfWork.EmployeeRepository.Get(id.Value);
 
             var mapped = _mapper.Map<Employee, EmployeeViewModel>(emp);
 
@@ -150,7 +166,8 @@ namespace Route.C41.G02.PL.Controllers
             try
             {
                 var MappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-                _employeeRepo.Update(MappedEmp);
+                _uniteOfWork.EmployeeRepository.Update(MappedEmp);
+                _uniteOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -180,8 +197,8 @@ namespace Route.C41.G02.PL.Controllers
             {
                 var MappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
 
-                _employeeRepo.Delete(MappedEmp);
-
+                _uniteOfWork.EmployeeRepository.Delete(MappedEmp);
+                _uniteOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
