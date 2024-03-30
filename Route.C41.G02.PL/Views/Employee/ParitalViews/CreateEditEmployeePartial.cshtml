@@ -4,7 +4,7 @@
 
 
 @{
-    var department = new SelectList(_uniteOfWork.DepartmentRepository.GetAll(), nameof(Department.Id), nameof(Department.Name));
+    var department = new SelectList(_uniteOfWork.Repository<Department>().GetAll(), nameof(Department.Id), nameof(Department.Name));
 }
 
 <div class="form-group">

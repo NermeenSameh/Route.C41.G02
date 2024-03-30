@@ -36,7 +36,7 @@ namespace Route.C41.G02.PL.Controllers
         // /Department/Index
         public IActionResult Index()
         {
-            var deparment = _uniteOfWork.DepartmentRepository.GetAll();
+            var deparment = _uniteOfWork.Repository<Department>().GetAll();
 
             var mappedDept = _mapper.Map<IEnumerable<Department>, IEnumerable<DepartmentViewModel>>(deparment);
 
@@ -56,7 +56,7 @@ namespace Route.C41.G02.PL.Controllers
             if (ModelState.IsValid)  // Server Side Validation
             {
               
-             _uniteOfWork.DepartmentRepository.Add(mappedDept);
+             _uniteOfWork.Repository<Department>().Add(mappedDept);
 
                 var count = _uniteOfWork.Complete();
                 if (count > 0)
@@ -73,7 +73,7 @@ namespace Route.C41.G02.PL.Controllers
             if (!id.HasValue)
                 return BadRequest(); // 400
 
-            var department = _uniteOfWork.DepartmentRepository.Get(id.Value);
+            var department = _uniteOfWork.Repository<Department>().Get(id.Value);
 
             var mappedDept = _mapper.Map<Department, DepartmentViewModel>(department);
             if (department is null)
@@ -116,7 +116,7 @@ namespace Route.C41.G02.PL.Controllers
             {
                 var mappedDept = _mapper.Map<DepartmentViewModel, Department>(departmentVM);
 
-                _uniteOfWork.DepartmentRepository.Update(mappedDept);
+                _uniteOfWork.Repository<Department>().Update(mappedDept);
                 _uniteOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
@@ -152,7 +152,7 @@ namespace Route.C41.G02.PL.Controllers
             {
                 var mappedDept = _mapper.Map<DepartmentViewModel, Department>(departmentVM);
 
-                _uniteOfWork.DepartmentRepository.Delete(mappedDept);
+                _uniteOfWork.Repository<Department>().Delete(mappedDept);
                 _uniteOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }

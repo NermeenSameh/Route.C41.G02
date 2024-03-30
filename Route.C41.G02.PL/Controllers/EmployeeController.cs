@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
 using Route.C41.G01.BLL.Interfaces;
+using Route.C41.G01.BLL.Repositories;
 using Route.C41.G02.DAL.Models;
 using Route.C41.G02.PL.ViewModels;
 using System;
@@ -42,6 +43,7 @@ namespace Route.C41.G02.PL.Controllers
         public IActionResult Index(string searchInp)
         {
             var employee = Enumerable.Empty<Employee>();
+            var employeeRepo = _uniteOfWork.Repository<Employee>() as EmployeeRepository;
             TempData.Keep();
             // Binding Through View's Dictionary : Tranfer Data from Action to View  [One Way]
 
@@ -56,9 +58,9 @@ namespace Route.C41.G02.PL.Controllers
             /// //ViewBag.Massage = "Hello from ViewBag";
 
             if (string.IsNullOrEmpty(searchInp))
-                employee = _uniteOfWork.EmployeeRepository.GetAll();
+                employee = employeeRepo.GetAll();
             else
-                employee = _uniteOfWork.EmployeeRepository.SearchByName(searchInp.ToLower());
+                employee = employeeRepo.SearchByName(searchInp.ToLower());
 
             var mappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(employee);
 
@@ -105,7 +107,7 @@ namespace Route.C41.G02.PL.Controllers
 
             if (ModelState.IsValid)
             {
-                _uniteOfWork.EmployeeRepository.Add(MappedEmp);
+                _uniteOfWork.Repository<Employee>().Add(MappedEmp);
 
                 // 3. TempData 
                 // Update
@@ -113,6 +115,7 @@ namespace Route.C41.G02.PL.Controllers
 
                 // Delete
                 // _uniteOfWork.EmployeeRepository.Remove(employee);
+             
                 var count = _uniteOfWork.Complete();
                 if (count > 0)
                     TempData["Message"] = "Employee is Create Succssfully";
@@ -131,7 +134,7 @@ namespace Route.C41.G02.PL.Controllers
             if (!id.HasValue)
                 return BadRequest();
 
-            var emp = _uniteOfWork.EmployeeRepository.Get(id.Value);
+            var emp = _uniteOfWork.Repository<Employee>().Get(id.Value);
 
             var mapped = _mapper.Map<Employee, EmployeeViewModel>(emp);
 
@@ -166,7 +169,7 @@ namespace Route.C41.G02.PL.Controllers
             try
             {
                 var MappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-                _uniteOfWork.EmployeeRepository.Update(MappedEmp);
+                _uniteOfWork.Repository<Employee>().Update(MappedEmp);
                 _uniteOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
@@ -197,7 +200,7 @@ namespace Route.C41.G02.PL.Controllers
             {
                 var MappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
 
-                _uniteOfWork.EmployeeRepository.Delete(MappedEmp);
+                _uniteOfWork.Repository<Employee>().Delete(MappedEmp);
                 _uniteOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
