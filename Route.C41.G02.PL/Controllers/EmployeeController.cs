@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Route.C41.G02.PL.Controllers
 {
@@ -122,7 +123,7 @@ namespace Route.C41.G02.PL.Controllers
                 /// _uniteOfWork.EmployeeRepository.Remove(employee);
 
                 var count = _uniteOfWork.Complete();
-              
+
                 if (count > 0)
                     TempData["Message"] = "Employee is Create Succssfully";
                 else
@@ -147,6 +148,9 @@ namespace Route.C41.G02.PL.Controllers
 
             if (emp is null)
                 return NotFound();
+
+            if (viewName.Equals("Delete", StringComparison.OrdinalIgnoreCase))
+                TempData["ImageName"] = emp.ImageName;
 
             return View(viewName, mapped);
 
@@ -195,6 +199,7 @@ namespace Route.C41.G02.PL.Controllers
 
         public IActionResult Delete(int? id)
         {
+
             return Details(id, "Delete");
         }
 
@@ -205,11 +210,17 @@ namespace Route.C41.G02.PL.Controllers
 
             try
             {
+                employeeVM.ImageName = TempData["ImageName"] as string;
                 var MappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
 
                 _uniteOfWork.Repository<Employee>().Delete(MappedEmp);
-                _uniteOfWork.Complete();
-                return RedirectToAction(nameof(Index));
+                var count = _uniteOfWork.Complete();
+                if (count > 0)
+                {
+                    DocumentSettings.DeleteFile(employeeVM.ImageName , "images");
+                    return RedirectToAction(nameof(Index));
+                }
+               return View(employeeVM);
             }
             catch (Exception ex)
             {
