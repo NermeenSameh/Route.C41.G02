@@ -6,11 +6,13 @@ using Newtonsoft.Json.Linq;
 using Route.C41.G01.BLL.Interfaces;
 using Route.C41.G01.BLL.Repositories;
 using Route.C41.G02.DAL.Models;
+using Route.C41.G02.PL.Helpers;
 using Route.C41.G02.PL.ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace Route.C41.G02.PL.Controllers
 {
@@ -103,27 +105,32 @@ namespace Route.C41.G02.PL.Controllers
             ///      DepartmentId = employeeVM.DepartmentId,
             ///  }
 
-            var MappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
 
             if (ModelState.IsValid)
             {
+                employeeVM.ImageName = DocumentSettings.UploadFile(employeeVM.Image, "images");
+
+                var MappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
+
+
                 _uniteOfWork.Repository<Employee>().Add(MappedEmp);
 
                 // 3. TempData 
-                // Update
-                // _uniteOfWork.EmployeeRepository.Update(employee);
+                /// Update
+                /// _uniteOfWork.EmployeeRepository.Update(employee);
+                /// Delete
+                /// _uniteOfWork.EmployeeRepository.Remove(employee);
 
-                // Delete
-                // _uniteOfWork.EmployeeRepository.Remove(employee);
-             
                 var count = _uniteOfWork.Complete();
+              
                 if (count > 0)
                     TempData["Message"] = "Employee is Create Succssfully";
-
                 else
                     TempData["Message"] = "An Error Has Occured , Employee Not Created :(";
 
                 return RedirectToAction(nameof(Index));
+
+
 
             }
             return View(employeeVM);
