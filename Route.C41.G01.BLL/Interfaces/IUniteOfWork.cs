@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Route.C41.G01.BLL.Interfaces
 {
-    public interface IUniteOfWork : IDisposable
+    public interface IUniteOfWork : IAsyncDisposable
     {
         /// public IEmployeeRepository EmployeeRepository { get; set; }
         /// public IDepartmentRepository DepartmentRepository { get; set; }
@@ -16,7 +16,7 @@ namespace Route.C41.G01.BLL.Interfaces
         IGenericRepository<T> Repository<T>() where T : ModelBase;
 
 
-        int Complete();
+       Task< int> Complete();
 
 
 

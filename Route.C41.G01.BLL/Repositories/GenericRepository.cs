@@ -56,16 +56,16 @@ namespace Route.C41.G01.BLL.Repositories
 
 
 
-        public IEnumerable<T> GetAll()
+        public async Task< IEnumerable<T>> GetAll()
         {
             if (typeof(T) == typeof(Employee))
                 return (IEnumerable<T>)_dbContext.Employees.Include(E => E.Departments).AsNoTracking().ToList();
             else
-                return _dbContext.Set<T>().AsNoTracking().ToList();
+                return await _dbContext.Set<T>().AsNoTracking().ToListAsync();
 
         }
 
-        public T Get(int id)
+        public async Task<T> Get(int id)
         {
             /// var department = _dbContext.Departments.Local.Where(D => D.Id == id).FirstOrDefault();
             /// if (department == null)
@@ -75,9 +75,10 @@ namespace Route.C41.G01.BLL.Repositories
 
             //  return _dbContext.Departments.Find(id);
 
-            return _dbContext.Find<T>(id); // EF Core 3.1 New Feature 
+            return await _dbContext.FindAsync<T>(id); // EF Core 3.1 New Feature 
 
         }
 
+     
     }
 }

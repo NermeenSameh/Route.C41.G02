@@ -8,7 +8,9 @@
 <br />
 
 <form asp-action="Edit" method="post">
-
+    <div>
+        <img src="~/files/images/@Model.ImageName" alt="Employee Image" width="75" class="img-fluid rounded-circle" />
+    </div>
     <partial name="ParitalViews/CreateEditEmployeePartial" />
 
    <div class="mt-3">

@@ -4,8 +4,10 @@
 
 
 @{
-    var department = new SelectList(_uniteOfWork.Repository<Department>().GetAll(), nameof(Department.Id), nameof(Department.Name));
+    var department = new SelectList( await _uniteOfWork.Repository<Department>().GetAll(), nameof(Department.Id), nameof(Department.Name));
 }
+
+
 
 <div class="form-group">
     <label asp-for="Name" class="col-form-label"></label>

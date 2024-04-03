@@ -64,6 +64,6 @@ namespace Route.C41.G01.BLL.Repositories
          }
 
         public IQueryable<Employee> SearchByName(string name)
-        => _dbContext.Employees.Where(E => E.Name.ToLower().Contains(name));
+         => _dbContext.Employees.Where(E => E.Name.ToLower().Contains(name));
     }
 }

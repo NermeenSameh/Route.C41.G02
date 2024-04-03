@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Route.C41.G01.BLL.Interfaces
 {
-    public interface IGenericRepository<T> where T : ModelBase 
+    public interface IGenericRepository<T> where T : ModelBase
     {
-        IEnumerable<T> GetAll();
-        T Get(int id);
+        Task<IEnumerable<T>> GetAll();
+        Task<T> Get(int id);
 
         void Add(T entity);
 
