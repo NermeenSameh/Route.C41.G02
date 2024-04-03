@@ -56,7 +56,7 @@ namespace Route.C41.G01.BLL.Repositories
 
 
 
-        public async Task< IEnumerable<T>> GetAll()
+        public virtual async Task< IEnumerable<T>> GetAll()
         {
             if (typeof(T) == typeof(Employee))
                 return (IEnumerable<T>)_dbContext.Employees.Include(E => E.Departments).AsNoTracking().ToList();
@@ -65,7 +65,7 @@ namespace Route.C41.G01.BLL.Repositories
 
         }
 
-        public async Task<T> Get(int id)
+        public  async Task<T> Get(int id)
         {
             /// var department = _dbContext.Departments.Local.Where(D => D.Id == id).FirstOrDefault();
             /// if (department == null)
