@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Route.C41.G02.DAL.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
         /// public ApplicationDbContext() : base(new DbContextOptions<ApplicationDbContext>())
