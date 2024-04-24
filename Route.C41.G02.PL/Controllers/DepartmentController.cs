@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Route.C41.G02.PL.Controllers
 {
-    // Inhertiance  : DepartmentController is  a Controller
-    // Composition  : DepartmentController has a DepartmentRepository
-
-    public class DepartmentController : Controller
+	// Inhertiance  : DepartmentController is  a Controller
+	// Composition  : DepartmentController has a DepartmentRepository
+	[Authorize]
+	public class DepartmentController : Controller
     {
         private readonly IUniteOfWork _uniteOfWork;
 

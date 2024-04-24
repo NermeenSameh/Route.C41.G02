@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Route.C41.G02.PL.ViewModels;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Route.C41.G02.PL.Controllers
 {
+   [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -27,7 +29,7 @@ namespace Route.C41.G02.PL.Controllers
         {
             return View();
         }
-
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

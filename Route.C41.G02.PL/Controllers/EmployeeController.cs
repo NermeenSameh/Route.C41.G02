@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -18,6 +19,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Route.C41.G02.PL.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IUniteOfWork _uniteOfWork;
