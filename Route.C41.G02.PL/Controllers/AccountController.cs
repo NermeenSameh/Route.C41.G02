@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Route.C41.G02.DAL.Models;
 using Route.C41.G02.PL.ViewModels;
 using System.Threading.Tasks;
 
 namespace Route.C41.G02.PL.Controllers
 {
-	public class AccountController : Controller
+    public class AccountController : Controller
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
@@ -70,6 +71,35 @@ namespace Route.C41.G02.PL.Controllers
 			return View();
 		}
 
+		[HttpPost]
+		public async Task<IActionResult> SignIn(SignInViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await _userManager.FindByEmailAsync(model.Email);
+				if (user is not null)
+				{
+					var flag = await _userManager.CheckPasswordAsync(user, model.Password);
+					if (flag)
+					{
+						var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+						
+						if(result.IsLockedOut)
+							ModelState.AddModelError(string.Empty, "Your Account is Locked");
+
+						if (result.IsNotAllowed)
+							ModelState.AddModelError(string.Empty, "Your Account is not Confirmed yet!");
+					
+						if (result.Succeeded)
+							return RedirectToAction(nameof(HomeController.Index),"Home");
+
+					}
+				}
+
+				ModelState.AddModelError(string.Empty, "Invalid Login");
+			}
+			return View(model);
+		}
 		#endregion
 	}
 }

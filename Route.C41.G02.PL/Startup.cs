@@ -87,10 +87,12 @@ namespace Route.C41.G02.PL
                 option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 
 
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
+
+           // services.AddAuthentication();
             
-            //services.AddAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,7 +8,7 @@ namespace Route.C41.G02.PL.ViewModels
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "First Name  is required")]
-        [Display (Name = "First Name")]
+        [Display(Name = "First Name")]
         public string FName { get; set; }
 
         [Required(ErrorMessage = "Last Name  is required")]
