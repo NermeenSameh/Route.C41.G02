@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Route.C41.G02.PL.Controllers
 {
-    public class AccountController : Controller
+	public class AccountController : Controller
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
@@ -81,15 +81,15 @@ namespace Route.C41.G02.PL.Controllers
 					if (flag)
 					{
 						var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-						
-						if(result.IsLockedOut)
+
+						if (result.IsLockedOut)
 							ModelState.AddModelError(string.Empty, "Your Account is Locked");
 
 						if (result.IsNotAllowed)
 							ModelState.AddModelError(string.Empty, "Your Account is not Confirmed yet!");
-					
+
 						if (result.Succeeded)
-							return RedirectToAction(nameof(HomeController.Index),"Home");
+							return RedirectToAction(nameof(HomeController.Index), "Home");
 
 					}
 				}
@@ -101,7 +101,7 @@ namespace Route.C41.G02.PL.Controllers
 		#endregion
 
 		#region Sign Out
-		public async new Task <IActionResult> SignOut()
+		public async new Task<IActionResult> SignOut()
 		{
 			await _signInManager.SignOutAsync();
 
@@ -110,5 +110,32 @@ namespace Route.C41.G02.PL.Controllers
 		}
 
 		#endregion
+
+		#region Forget Password
+
+		public IActionResult ForgetPassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public async Task< IActionResult> SendResetPasswordEmail(ForgetPasswordViweModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await _userManager.FindByEmailAsync(model.Email);
+				if (user is not null)
+				{
+
+				}
+				ModelState.AddModelError(string.Empty, "There is No Account with this Email !");
+			}
+
+			return View(model);
+		}
+
+
+		#endregion
+
 	}
 }
