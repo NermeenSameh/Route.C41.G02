@@ -61,8 +61,6 @@ namespace Route.C41.G02.PL.Controllers
 
 		#endregion
 
-
-
 		#region Sign In
 
 
@@ -100,6 +98,17 @@ namespace Route.C41.G02.PL.Controllers
 			}
 			return View(model);
 		}
+		#endregion
+
+		#region Sign Out
+		public async new Task <IActionResult> SignOut()
+		{
+			await _signInManager.SignOutAsync();
+
+			return RedirectToAction(nameof(SignIn));
+
+		}
+
 		#endregion
 	}
 }
